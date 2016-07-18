@@ -81,3 +81,10 @@ body{
 	transform: rotate(300deg) skew(30deg,0deg);
 	transform-origin:100% 100%;
 }
+.m-cheerup-cvm{
+	margin-top: 40px;
+}
+.m-bigRound-cvm{
+	width:400px;
+	margin: 0 auto;
+}
