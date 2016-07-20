@@ -116,6 +116,13 @@ $(function(){
 			}
 			ctx.fill();
 			ctx.closePath();
+		}else if(r==5){
+			ctx.beginPath();
+			ctx.strokeStyle = '#09f';
+			ctx.fillStyle = '#f6fff9';
+			ctx.arc(x, y, 2, 0, 2*Math.PI, true);
+			ctx.fill();
+			ctx.closePath();
 		}else{
 			ctx.beginPath();
 			ctx.strokeStyle = '#09f';
@@ -123,6 +130,28 @@ $(function(){
 			ctx.arc(x, y, r, 0, 2*Math.PI, true);
 			ctx.fill();
 			ctx.closePath();
+		}
+	}
+	var s=60;
+	var g=2,v=50;
+	var t=0;
+	function showering(sarr,s){
+		sarr[s].x=v*t+sarr[s].x;
+		sarr[s].y=sarr[s].y+g*t*t/2;
+		//t++;
+		if(sarr[s].x>600||sarr[s].y>400){
+			console.log(sarr[s].x);
+			sarr.splice(s, 1);
+			stars--;
+			t=0;
+			return false
+		}
+		return true
+	}
+	//删除数组制定元素
+	function removeArr(arr,s){
+		for(var i=0;i<arr.length;i++){
+
 		}
 	}
 	//画所有的星星，100个，半径都是1 范围0,0 ,600,400*0.6//90  600,400*0.9
@@ -146,6 +175,8 @@ $(function(){
 			y=sarr[i].y;
 			if(arrHas(i,arr)){
 				drawStar(x,y,0)
+			}else if(i==s){
+				drawStar(x,y,5)
 			}else{
 				drawStar(x,y,1)
 			}
@@ -171,11 +202,22 @@ $(function(){
 		return arr
 	}
 	var deg=0
+		var shower = false
 	function draw(){
 		console.log(deg++);
 		ctx.clearRect(0, 0, 600, 400); 
 		drawSky();
 		//console.log(act);
+		if(deg%47==0){
+			shower = true
+		}
+		if(shower){
+			t++;
+			shower=showering(sarr,s);
+			console.log(shower)
+			//shower=false
+		}
+		
 		drawAllStar(stars,act);
 		drawMountain();
 		//drawStar(40,40,10)
