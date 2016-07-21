@@ -1,52 +1,105 @@
-<!DOCTYPE HTML> 
-<html> 
-<body> 
-<canvas id="myCanvas" width="500" height="500">your browser does not support the canvas tag</canvas> 
-<script type="text/javascript"> 
-var deg = 0; 
-var r = 30; 
-var rl = 100; 
-function drawTaiji() { 
-var canvas = document.getElementById('myCanvas'); 
-var context = canvas.getContext('2d'); 
-var colorA = "rgb(0, 0, 0)"; 
-var colorB = "red"; 
-
-var px =Math.sin(deg)*r; 
-var py =Math.cos(deg)*r; 
-context.clearRect(0, 0, 300, 300); 
-context.beginPath(); 
-context.fillStyle = colorA; 
-context.arc(rl, rl, 60, 0.5 * Math.PI +deg, 1.5 * Math.PI +deg, true); 
-context.closePath(); 
-context.fill(); 
-context.fillStyle = colorB; 
-context.beginPath(); 
-context.arc(rl, rl, 60, 1.5* Math.PI +deg, 0.5 * Math.PI +deg, true); 
-context.closePath(); 
-context.fill(); 
-context.fillStyle = colorB; 
-context.beginPath(); 
-context.arc(rl+px, rl-py, 30, 0.5 * Math.PI + deg, 1.5 * Math.PI + deg, true); 
-context.closePath(); 
-context.fill(); 
-context.fillStyle = colorA; 
-context.beginPath(); 
-context.arc(rl-px, rl+py, 30, 1.5 * Math.PI + deg, 0.5 * Math.PI + deg, true); 
-context.closePath(); 
-context.fill(); 
-context.fillStyle = colorA; 
-context.beginPath(); 
-context.arc(rl+px, rl-py, 8, 0, 2 * Math.PI, true); 
-context.closePath(); 
-context.fill(); 
-context.fillStyle = colorB; 
-context.beginPath(); 
-context.arc(rl-px, rl+py, 8, 0, 2 * Math.PI, true); 
-context.closePath(); 
-context.fill(); 
-deg +=0.1; 
-} 
-setInterval(drawTaiji, 100);
-</script> </p> <p></body> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>管道滑球测试</title>
+	<link rel="stylesheet" href="./css/xg.css">
+	<link rel="stylesheet" href="./css/bigRound.css">
+	<script src="./js/jquery-1.11.3.js"></script>
+</head>
+<body>
+<div class="g-head"></div>
+<div class="g-body">
+	<div class="m-shower">
+		<div class="m-shower-cvm">
+			<canvas id="piping" width="600px" height="400px"></canvas>
+		</div>
+	</div>
+</div>
+<div class="g-foot"></div>
+<script>
+	$(function(){
+	var cvn = document.getElementById('piping')
+	var ctx = cvn.getContext('2d');
+	var bgc='#d6dde7'
+	//画布背景
+	function drawBackground(){
+		ctx.beginPath();
+		ctx.fillStyle = bgc;
+		ctx.fillRect(0,0,600,400);
+		ctx.fill();
+		ctx.closePath();
+	}
+	//定义小球
+	var dline=ball();
+	function ball(){
+		return {
+			x:200,
+			y:0,
+			vx:0,
+			vy:0,
+			m:5,
+			a:0,
+			g:2,
+			type:'ball',
+			color:'#ba5616',
+			actColor:'#ccc',
+			r:4,
+			weight:1,
+			act:true
+		}
+	}
+	console.log(dline);
+	//小球集合
+	var arr=[],n=1
+	 for(var i=0;i<n;i++){
+	 	var dline=ball();
+	 	dline.x=dline.x-i;
+	 	arr.push(dline)
+	 }
+	//console.log(arr);
+	//画小球
+	function drawBall(arr,t){
+		for(var i=0;i<arr.length;i++){
+			var b=arr[i]
+			//console.log(b)
+			if(b.act){
+				ctx.beginPath();
+				ctx.moveTo(300,271);
+				ctx.fillStyle = b.color;
+				ctx.strokeStyle = b.actColor;
+				ctx.lineWidth = b.weight;
+				ctx.arc(435, 280, b.r, 0, 2*Math.PI, true);
+				ctx.moveTo(426.3,280);
+				ctx.arc(426.3, 280, b.r, 0, 2*Math.PI, true);
+				ctx.moveTo(417.6,280);
+				ctx.arc(417.6, 280, b.r, 0, 2*Math.PI, true);
+				ctx.moveTo(520,270);
+				ctx.arc(520, 270, b.r, 0, 2*Math.PI, true);
+				
+				ctx.stroke();
+				ctx.fill();
+				ctx.closePath();
+			}
+			runBall(b,t);
+			
+		}
+	}
+	var xg=0;
+	//小球运动
+	
+	//运行
+	var deg=0;
+	function draw(){
+		ctx.clearRect(0,0,600,400)
+		drawBackground();
+		drawBall(arr,deg);
+		//console.log(deg)
+		deg++
+	}
+	draw();
+	//var go = setInterval(draw,50);
+});
+</script>
+</body>
 </html>

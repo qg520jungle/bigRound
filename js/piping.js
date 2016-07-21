@@ -14,17 +14,16 @@ $(function(){
 	var dline=ball();
 	function ball(){
 		return {
-			x:200,
-			y:200,
-			vx:250,
-			vy:200,
-			a:225,
-			g:175,
+			x:300,
+			y:0,
+			vx:0,
+			vy:0,
+			m:5,
+			a:0,
+			g:2,
 			type:'ball',
-			color:'#efefef',
+			color:'#ba5616',
 			actColor:'#ccc',
-			tcolor:'#339977',
-			actTColor:'#997733',
 			r:4,
 			weight:1,
 			act:true
@@ -35,17 +34,75 @@ $(function(){
 	var arr=[],n=1
 	 for(var i=0;i<n;i++){
 	 	var dline=ball();
-	 	dline.x=dline.x-i;
+	 	switch(i){
+	 		case 0:
+	 		dline.vx=0;
+	 		dline.vy=-20;
+	 		break;
+	 		
+	 	}
 	 	arr.push(dline)
 	 }
-	console.log(arr);
+	//console.log(arr);
+	//画小球
+	function drawBall(arr,t){
+		for(var i=0;i<arr.length;i++){
+			var b=arr[i]
+			//console.log(b)
+			if(b.act){
+				ctx.beginPath();
+				ctx.moveTo(b.x,b.y);
+				ctx.fillStyle = b.color;
+				ctx.strokeStyle = b.actColor;
+				ctx.lineWidth = b.weight;
+				ctx.arc(b.x, b.y, b.r, 0, 2*Math.PI, true);
+				ctx.arc(350, 139.6, b.r, 0, 2*Math.PI, true);
+				ctx.stroke();
+				ctx.fill();
+				ctx.closePath();
+			}
+			runBall(b,t);
+			
+		}
+	}
+	var xg=0;
+	//小球运动
+	function runBall(b,t){
+		
+		var temp=b.vy
+		b.x=b.x+b.vx+b.a/2;
+		b.y=b.y+b.vy+b.g/2;
+		b.vx=b.vx+b.a;
+		b.vy=b.vy+b.g;
+		if(b.y>=370){
+			b.vy=b.vy*(-1)*0.5;
+			b.y=370;
+		}
+		if((temp*b.vy<=0)){
+			
+			// if(b.y>=370){
+			// 	b.vy=0;
+			// }
+			xg++
+			if(xg==4){
+				console.log('x:'+b.x+'; y:'+b.y+'; deg:'+deg);
+			}
+			 
+		}
+
+		if(b.vy==0){
+			console.log(true)
+		}
+			
+	}
 	//运行
 	var deg=0;
 	function draw(){
 		ctx.clearRect(0,0,600,400)
 		drawBackground();
-
-		console.log(deg++)
+		drawBall(arr,deg);
+		//console.log(deg)
+		deg++
 	}
 	draw();
 	var go = setInterval(draw,50);

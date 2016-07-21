@@ -24,5 +24,6 @@ $(function(){
 		drawFire()
 		console.log(deg++)
 	}
-	var go = setInterval(draw,50);
+	draw();
+	//var go = setInterval(draw,50);
 });
